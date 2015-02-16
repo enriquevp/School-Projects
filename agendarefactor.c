@@ -20,7 +20,7 @@ struct contact
 int elements;
 
 /*Functions*/
-void insert_contact(struct contact *a)
+void insert_contact(struct contact a[])
 {
         int i = 0,j;
         struct contact con;
@@ -43,7 +43,7 @@ void insert_contact(struct contact *a)
         }
 }
 
-void list_contacts(struct contact *a)
+void list_contacts(struct contact a[])
 {
         int i = 0;
         if (elements == 0){
@@ -57,7 +57,7 @@ void list_contacts(struct contact *a)
 
 }
 
-void search_contact(struct contact *a)
+void search_contact(struct contact a[])
 {
         int i = 0;
         char name[MAX_NAME];
@@ -73,7 +73,7 @@ void search_contact(struct contact *a)
                 printf("\nContact not found.");
 }
 
-void delete_contact(struct contact *a)
+void delete_contact(struct contact a[])
 {
         int i = 0, j = 0;
         char delete;
