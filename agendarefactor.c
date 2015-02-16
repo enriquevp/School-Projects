@@ -87,8 +87,8 @@ void delete_contact(struct contact *a)
                 scanf("%c",&delete);
 
                 if (delete  == 'Y' || delete == 'y'){
-                        for (j = i + 1;j < elements;j++)
-                                a[j - 1] = a[j];
+                for (j = i + 1;j < elements;j++)
+                        a[j - 1] = a[j];
                 
                 elements--;
                 printf("\nContact deleted.");
