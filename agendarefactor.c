@@ -144,12 +144,12 @@ int main()
 		case 'E':
 			printf("\nGoodbye!");
 			break;
-
-		    default:
-                    printf("\nOption not allowed.");
+                case ' ':
+                        ;
+                default:
+                        ;
 		}
-
-		scanf("%*c");
+                scanf("%*c");
         }while (option != 'e' && option != 'E');
 
         free(agenda);
