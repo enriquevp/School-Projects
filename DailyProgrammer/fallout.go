@@ -43,16 +43,12 @@ func Difficulty(diff string) int {
 	case "hardest":
 		diffLevel = 4
 	}
+
 	return diffLevel
 }
 
-func Words(diffLevel int) ([]string, int) {
+func getWords(lines []string, diffLevel int) ([]string, int) {
 	var arraySize, wordLength int
-
-	lines, err := readLines("falloutdictionary.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	switch diffLevel {
 	case 0:
@@ -79,7 +75,6 @@ func Words(diffLevel int) ([]string, int) {
 			wordList = append(wordList, appendWord)
 		}
 	}
-
 	return wordList, arraySize
 }
 
@@ -90,10 +85,10 @@ func checkWord(word string) (int, int) {
 	)
 
 	for rightCount != len(word) && attempts != 4 {
-		fmt.Printf("Take your guess (%d remaining): ", 4-attempts)
+		fmt.Printf("Take your guess (lowercase) (%d remaining): ", 4-attempts)
 		fmt.Scanf("%s\n", &userWord)
 		rightCount = 0
-		for i := range userWord { // Compares letter positions
+		for i := range userWord {
 			if userWord[i] == word[i] {
 				rightCount++
 			}
@@ -105,8 +100,15 @@ func checkWord(word string) (int, int) {
 }
 
 func main() {
-	rand.Seed(time.Now().Unix()) // Further randomizes rand
+	rand.Seed(time.Now().Unix())
 	var diffLevel string
+
+	lines, err := readLines("falloutdictionary.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Menu
 	fmt.Println("easiest")
 	fmt.Println("easy")
 	fmt.Println("average")
@@ -116,7 +118,7 @@ func main() {
 	fmt.Scanf("%s\n", &diffLevel)
 
 	diffLevelint := Difficulty(diffLevel)
-	gameList, arrLength := Words(diffLevelint)
+	gameList, arrLength := getWords(lines, diffLevelint)
 
 	word := gameList[(rand.Intn(arrLength))] // Assign the winning word
 
@@ -127,7 +129,9 @@ func main() {
 	for i := 0; i < len(gameList); i++ {
 		fmt.Println(strings.ToUpper(gameList[i])) // Present the word list
 	}
+
 	rightCount, attempts := checkWord(word)
+
 	if rightCount == len(word) {
 		fmt.Println("Congratulations!")
 	}
