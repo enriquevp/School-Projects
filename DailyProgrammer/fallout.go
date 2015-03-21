@@ -1,3 +1,9 @@
+/*
+ * Fallout.go
+ * Simulates the terminal hacking minigame present in Fallout 3 and New Vegas
+ *
+ */
+
 package main
 
 import (
