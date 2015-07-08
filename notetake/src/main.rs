@@ -7,6 +7,27 @@ struct TodoItem {
     categories: Vec<String>
 }
 
+
+fn show_list(v: &Vec<TodoItem>) {
+    for i in v.iter() {
+        println!("- {}", i.text);
+    }
+}
+
+fn show_list_by_category(v: &Vec<TodoItem>, cat: &String) {
+    for i in v.iter() {
+        for categ in &i.categories {
+            if i.categories.is_empty() {
+                println!("There are no items in that category.");
+            } else {
+                if categ == cat {
+                    println!("- {}", i.text);
+                }  
+            }
+        }
+    }
+}
+
 fn main() {
     let matches = App::new("notetake")
         .version("0.1")
@@ -23,6 +44,12 @@ fn main() {
              .help("Specifies the category the item belongs to")
              .takes_value(true)
              .multiple(true))
+        .subcommand(SubCommand::with_name("show")
+                    .arg(Arg::with_name("category_list")
+                         .short("c")
+                         .long("category")
+                         .help("Shows all the items belonging to this category")
+                         .takes_value(true)))
         .get_matches();
 
     let mut v: Vec<TodoItem> = vec![];
@@ -37,6 +64,16 @@ fn main() {
         }
         v.push(added_item);
     }
-    //println!("{}", v[0].text);
-    //println!("{}", v[0].categories[1]);//
+
+    if matches.is_present("show") {
+        if matches.is_present("category_list") {
+            let user_category = value_t!(matches.value_of("category_list"), String).unwrap();
+            show_list_by_category(&v, &user_category.to_string());
+        }
+        if v.is_empty() {
+            println!("The list is empty.");
+        } else {
+            show_list(&v);
+        }
+    }
 }
