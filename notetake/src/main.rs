@@ -7,7 +7,6 @@ struct TodoItem {
     categories: Vec<String>
 }
 
-
 fn show_list(v: &Vec<TodoItem>) {
     for i in v.iter() {
         println!("- {}", i.text);
@@ -38,14 +37,15 @@ fn main() {
              .long("add")
              .help("Adds a new item to the list")
              .takes_value(true))
-        .arg(Arg::with_name("categorize")
+        .arg(Arg::with_name("category")
              .short("c")
              .long("category")
              .help("Specifies the category the item belongs to")
              .takes_value(true)
              .multiple(true))
         .subcommand(SubCommand::with_name("show")
-                    .arg(Arg::with_name("category_list")
+                    .about("Shows the list of items")
+                    .arg(Arg::with_name("list_category")
                          .short("c")
                          .long("category")
                          .help("Shows all the items belonging to this category")
@@ -57,7 +57,7 @@ fn main() {
         let user_item = value_t!(matches.value_of("item"), String).unwrap();
         let mut added_item: TodoItem = TodoItem{text : user_item.to_string(), categories : vec![]};
 
-        if let Some(ref categories) = matches.values_of("categorize") {
+        if let Some(ref categories) = matches.values_of("category") {
             for in_categories in categories.iter() {
                 added_item.categories.push(in_categories.to_string());
            } 
@@ -66,8 +66,8 @@ fn main() {
     }
 
     if matches.is_present("show") {
-        if matches.is_present("category_list") {
-            let user_category = value_t!(matches.value_of("category_list"), String).unwrap();
+        if matches.is_present("list_category") {
+            let user_category = value_t!(matches.value_of("list_category"), String).unwrap();
             show_list_by_category(&v, &user_category.to_string());
         }
         if v.is_empty() {
