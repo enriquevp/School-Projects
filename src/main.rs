@@ -7,7 +7,6 @@ struct TodoItem {
     categories: Vec<String>
 }
 
-
 fn show_list(v: &Vec<TodoItem>) {
     for i in v.iter() {
         println!("- {}", i.text);
