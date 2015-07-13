@@ -1,7 +1,0 @@
-[package]
-name = "notetake"
-version = "0.1.0"
-authors = ["enrique"]
-
-[dependencies]
-clap = "*"
